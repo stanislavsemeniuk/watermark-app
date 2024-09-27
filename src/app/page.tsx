@@ -83,7 +83,7 @@ export default function Home() {
               {...register('files',{required: language==='en' ? 'Upload at least one file' : 'Загрузите хоть один файл'})}
               multiple
               type="file"
-              hidden
+              style={{ display: 'none' }}
               accept="image/*"
             />
           </Button>
