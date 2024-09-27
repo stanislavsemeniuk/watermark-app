@@ -5,7 +5,6 @@ import ImageIcon from '@mui/icons-material/Image';
 import { useForm,SubmitHandler } from "react-hook-form";
 import { useLanguageContext } from "./context/LanguageContext";
 import { useState } from "react";
-import Image from "next/image";
 
 type Inputs = {
   watermarkText: string
