@@ -6,7 +6,7 @@ type Language = 'en' | 'ru'
 
 type ChangeLanguage = (language: Language) => void;
 
-const LanguageContext = createContext<{ changeLanguage: ChangeLanguage, language:Language }>({changeLanguage:(lng)=>{},language:'en'});
+const LanguageContext = createContext<{ changeLanguage: ChangeLanguage, language:Language }>({changeLanguage:()=>{},language:'en'});
 
 export default function LanguageContextProvider({ children }: { children: React.ReactNode }) {
   const [language, setLangauge] = useState<Language>('en');

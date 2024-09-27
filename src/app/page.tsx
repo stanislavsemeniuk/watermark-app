@@ -5,6 +5,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import { useForm,SubmitHandler } from "react-hook-form";
 import { useLanguageContext } from "./context/LanguageContext";
 import { useState } from "react";
+import Image from "next/image";
 
 type Inputs = {
   watermarkText: string
@@ -128,7 +129,7 @@ export default function Home() {
               overflowY:'hidden',
               '::-webkit-scrollbar': { display: 'none' } 
             }}>
-            {Array.isArray(result) && result?.map((image,index)=><Box width='300px'><img style={{maxWidth:'100%',height:'auto'}} key={index} src={image}/></Box>)}
+            {Array.isArray(result) && result?.map((image,index)=><Box key={index} width='300px'><img alt={`image${index}`} style={{maxWidth:'100%',height:'auto'}} key={index} src={image}/></Box>)}
           </Box>
           </> : null}
         </Box>
