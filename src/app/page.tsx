@@ -48,6 +48,7 @@ export default function Home() {
       const response = await fetch("/api/watermark", {
         method: "POST",
         body: formData,
+        cache: 'no-cache',
       });
       const body = await response.json()
       const images = body?.watermarkedImages;
