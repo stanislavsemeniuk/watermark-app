@@ -74,6 +74,20 @@ export default function Home() {
             {...register('watermarkText',{required:language==='en' ? 'Watermark text is required' : 'Текст водяного знака обязателен'})} 
           />
           {errors.watermarkText && <Typography color='error' fontSize='10px'>{errors.watermarkText.message}</Typography>}
+          <Button
+            variant="outlined"
+            component="label"
+            fullWidth
+          >
+            {language==='en' ? 'Upload Files' : 'Загрузить файлы'}
+            <input
+              {...register('files',{required: language==='en' ? 'Upload at least one file' : 'Загрузите хоть один файл'})}
+              multiple
+              type="file"
+              style={{ display: 'none' }}
+              accept="image/*"
+            />
+          </Button>
           <Controller
             control={control}
             rules={{
@@ -87,12 +101,6 @@ export default function Home() {
               />
             )}
             name="color"
-          />
-          <input
-            {...register('files',{required: language==='en' ? 'Upload at least one file' : 'Загрузите хоть один файл'})}
-            multiple
-            type="file"
-            accept="image/*"
           />
           {errors.files && <Typography color='error' fontSize='10px'>{errors.files.message}</Typography>}
           <Box display='flex' flexDirection='column' gap='8px'>
