@@ -2,24 +2,26 @@
 
 import { Box, TextField,Button, Typography } from "@mui/material";
 import ImageIcon from '@mui/icons-material/Image';
-import { useForm,SubmitHandler } from "react-hook-form";
+import { MuiColorInput } from "mui-color-input";
+import { useForm,SubmitHandler, Controller } from "react-hook-form";
 import { useLanguageContext } from "./context/LanguageContext";
 import { useState } from "react";
 
 type Inputs = {
   watermarkText: string
   files: File[],
+  color:string
 }
 
 export default function Home() {
 
   const [result,setResult] = useState<string[]>([])
-
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    control,
     formState: { errors,isSubmitting },
   } = useForm<Inputs>()
 
@@ -38,7 +40,7 @@ export default function Home() {
     setResult([])
     const formData = new FormData();
     formData.append("watermarkText", data.watermarkText);
-    
+    formData.append("color", data.color || '#fff');
     Array.from(data.files).forEach((file: File) => {
       formData.append("images", file);
     });
@@ -51,7 +53,6 @@ export default function Home() {
       const images = body?.watermarkedImages;
       if(images) {
         setResult(images)
-        reset()
       }
     } catch (error) {
       console.log(error);
@@ -73,20 +74,26 @@ export default function Home() {
             {...register('watermarkText',{required:language==='en' ? 'Watermark text is required' : 'Текст водяного знака обязателен'})} 
           />
           {errors.watermarkText && <Typography color='error' fontSize='10px'>{errors.watermarkText.message}</Typography>}
-          <Button
-            variant="outlined"
-            component="label"
-            fullWidth
-          >
-            {language==='en' ? 'Upload Files' : 'Загрузить файлы'}
-            <input
-              {...register('files',{required: language==='en' ? 'Upload at least one file' : 'Загрузите хоть один файл'})}
-              multiple
-              type="file"
-              style={{ display: 'none' }}
-              accept="image/*"
-            />
-          </Button>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <MuiColorInput
+                onBlur={onBlur}
+                onChange={onChange}
+                value={value}
+              />
+            )}
+            name="color"
+          />
+          <input
+            {...register('files',{required: language==='en' ? 'Upload at least one file' : 'Загрузите хоть один файл'})}
+            multiple
+            type="file"
+            accept="image/*"
+          />
           {errors.files && <Typography color='error' fontSize='10px'>{errors.files.message}</Typography>}
           <Box display='flex' flexDirection='column' gap='8px'>
             {filesArray.map((file:File,index)=>(
